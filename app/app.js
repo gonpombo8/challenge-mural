@@ -10,12 +10,17 @@ angular
 			.state('main.room1', {
 				url: '/room1',
 				templateUrl: 'templates/room1.html',
-				controller: 'roomController'
+				controller: 'roomController',
+				data: {
+					room: 'room1'
+				}
 			})
 			.state('main.room2', {
 				url: '/room2',
 				templateUrl: 'templates/room2.html',
-				controller: 'roomController'
-
+				controller: 'roomController',
+				data: {
+					room: 'room2'
+				}
 			})
 		}]);

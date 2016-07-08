@@ -1,15 +1,19 @@
 'use strict';
 angular
 	.module('mural')
-	.controller('roomController', [function() {
-		var socket = io();
-		var timeout;
+	.controller('roomController', ['$state', '$scope', function($state, $scope) {
+		var socket         = io();
 		var updatingScroll = false;
+		var room           = $state.current.data.room;
+		var timeout;
+
+		socket.emit('room', room);
 
 		window.onscroll = function() {
 			let scrollPercetage = window.pageYOffset / maxHeightScroll();
 			if(!updatingScroll) socket.emit('scroll', scrollPercetage);
 		}
+
 		socket.on('updateSroll', function(percentage) {
 			let height = percentage * maxHeightScroll();
 			updatingScroll = true;
@@ -25,4 +29,9 @@ angular
 			let windowHeight = window.innerHeight;
 			return documentHeight - windowHeight;
 		}
+
+		$scope.$on('$destroy', function (event) {
+			socket.removeAllListeners();
+		});
+
 	}]);
