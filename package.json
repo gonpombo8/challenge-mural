@@ -1,0 +1,22 @@
+{
+  "name": "challenge-mural",
+  "version": "1.0.0",
+  "description": "Challenge tech for mural.co",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gonpombo8"
+  },
+  "author": "Gon Pombo",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.14.0",
+    "gulp": "^3.9.1",
+    "gulp-nodemon": "^2.1.0",
+    "http": "0.0.0",
+    "socket.io": "^1.4.8"
+  }
+}

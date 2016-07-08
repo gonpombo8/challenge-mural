@@ -1,0 +1,12 @@
+{
+  "name": "challenge-mural-client",
+  "description": "Front-end for challenge Mural.co",
+  "authors": [
+    "Gon Pombo"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/gonpombo8",
+  "dependencies": {
+    "socket.io.client": "^1.3.5"
+  }
+}
