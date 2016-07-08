@@ -11,15 +11,17 @@ server.listen(port, () => {
 	console.log('Server listening on port', port);
 });
 
+var scrollTest = 0;
 io.on('connection', (socket) => {
 	console.log("Socket %s connected", socket.id);
-	
+	socket.emit('updateSroll', scrollTest);
 	socket.on('disconnect', () => {
 		console.log("Socket %s disconnected", socket.id);
 	});
 
 	socket.on('scroll', (height) => {
 		console.log("Socket %s update scroll page %s", socket.id, height);
+		scrollTest = height;
 		socket.broadcast.emit('updateSroll', height);
 	})
 });
