@@ -14,7 +14,7 @@ server.listen(port, () => {
 var scrollTest = 0;
 io.on('connection', (socket) => {
 	console.log("Socket %s connected", socket.id);
-	socket.emit('updateSroll', scrollTest);
+	if(io.engine.clientsCount) socket.emit('updateSroll', scrollTest);
 	socket.on('disconnect', () => {
 		console.log("Socket %s disconnected", socket.id);
 	});
