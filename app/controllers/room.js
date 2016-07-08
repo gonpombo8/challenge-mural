@@ -11,7 +11,7 @@ angular
 
 		window.onscroll = function() {
 			let scrollPercetage = window.pageYOffset / maxHeightScroll();
-			if(!updatingScroll) socket.emit('scroll', scrollPercetage);
+			if(!updatingScroll) socket.emit('scrollChange', {percentage: scrollPercetage, room: room});
 		}
 
 		socket.on('updateSroll', function(percentage) {
