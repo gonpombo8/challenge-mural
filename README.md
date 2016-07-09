@@ -13,3 +13,14 @@ $ npm install
 $ bower install
 $ node app.js
 ```
+
+### Demo.
+> You can access to de demo preview on https://mural-challenge.herokuapp.com/#/
+
+### Bonus Point 1
+
+### Bonus Point 2
+
+### Bonus Point 3
+
+### Log of important decisions.
