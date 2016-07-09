@@ -2,7 +2,8 @@
 angular
 	.module('mural')
 	.controller('roomController', ['$state', '$scope', function($state, $scope) {
-		var socket         = io();
+		var url            = window.location.protocol +  "//" + window.location.host;
+		var socket         = io(url);
 		var updatingScroll = false;
 		var room           = $state.current.data.room;
 		var timeout;
