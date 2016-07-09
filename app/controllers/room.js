@@ -6,8 +6,6 @@ app.controller('roomController', ['$state', '$scope', function($state, $scope) {
 	var room           = $state.current.data.room;
 	var timeout;
 
-	socket.emit('room', room);
-
 	window.onscroll = function() {
 		var scrollPercetage = window.pageYOffset / maxHeightScroll();
 		if(!updatingScroll) socket.emit('scrollChange', {percentage: scrollPercetage, room: room});
@@ -28,6 +26,11 @@ app.controller('roomController', ['$state', '$scope', function($state, $scope) {
 		var windowHeight = window.innerHeight;
 		return documentHeight - windowHeight;
 	}
+
+	(function init() {
+		window.scrollTo(0, 0);
+		socket.emit('room', room);
+	})();
 
 	$scope.$on('$destroy', function (event) {
 		socket.removeAllListeners();
