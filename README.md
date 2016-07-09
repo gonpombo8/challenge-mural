@@ -2,7 +2,7 @@ Challenge MURAL.co
 ============
 
 ### Synopsis
-> Tech challenge for mural.co interview by Gon Pombo.
+> Tech challenge for mural.co by Gon Pombo.
 > Simple real-time app where the users can read different documents collaboratively.
 
 ### Installation
