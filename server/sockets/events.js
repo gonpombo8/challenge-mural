@@ -17,10 +17,8 @@ function socketConfig (io) {
 				socket.leave(socket.room);
 			joinRoom(room);
 			let roomSessions = io.sockets.adapter.rooms[room].length;
-			if(roomSessions > 1) {
-				console.log("Entro.")
+			if(roomSessions > 1)
 				socket.emit('updateSroll', scrollTest[room] || 0);
-			}
 		});
 
 		socket.on('disconnect', () => {
