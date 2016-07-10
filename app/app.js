@@ -9,6 +9,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
 		})
 		.state('main', {
 			templateUrl: 'templates/main.html',
+			controller: 'navbarController',
 			resolve: {
 				username: function($cookies, $q) {
 					var promise = $q.defer();
