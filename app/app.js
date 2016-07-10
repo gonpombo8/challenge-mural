@@ -1,4 +1,5 @@
-var app = angular.module('mural', ['ui.router']);
+var app = angular.module('mural', ['ui.router', 'ngCookies']);
+
 app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 	$stateProvider
 		.state('main', {
