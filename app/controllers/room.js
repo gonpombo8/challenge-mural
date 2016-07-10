@@ -1,33 +1,51 @@
 'use strict';
-app.controller('roomController', ['$state', '$scope', function($state, $scope) {
+app.controller('roomController', ['$state', '$scope', '$cookies', function($state, $scope, $cookies) {
 	var url            = window.location.protocol +  "//" + window.location.host;
 	var socket         = io(url);
 	var updatingScroll = false;
 	var room           = $state.current.data.room;
+	var WIDTH          = 0;
 	var timeout;
 
-	//Scroll event.
+	$.notify.defaults({autoHideDelay: 4000, className: 'success'});
+
 	window.onscroll = function() {
 		var scrollPercetage = window.pageYOffset / maxHeightScroll();
 		if(!updatingScroll) socket.emit('scrollChange', {percentage: scrollPercetage, room: room});
 	}
-	//Another user scroll.
-	socket.on('updateSroll', function(percentage) {
-		var height = percentage * maxHeightScroll();
+
+	socket.on('updateSroll', function(scroll) {
+		var height = scroll.percentage * maxHeightScroll();
+		notifyMessage(scroll.username);
+		scrollTimeout();
+		window.scrollTo(WIDTH, height);
+	});
+
+	socket.on('error', function(error) {
+		$.notify(error, "danger");
+		$state.go('login');
+	});
+
+	function scrollTimeout() {
 		updatingScroll = true;
-		//Timeout function to doesn't send the data we recieve to the server when scrolling.
 		clearTimeout(timeout);
 		timeout = setTimeout(function() {
 			updatingScroll = false;
 		}, 500);
-		window.scrollTo(0, height);
-	});
+	}
 
-	//Height size of the app, use it to calculate percentage for multiple sizes of height.
 	function maxHeightScroll() {
 		var documentHeight = document.documentElement.scrollHeight;
 		var windowHeight = window.innerHeight;
 		return documentHeight - windowHeight;
+	}
+
+	function notifyMessage(username) {
+		if(username) {
+			var oldMessage = $("[data-notify-text]");
+			var message = username + " is scrolling";
+			oldMessage.length ? oldMessage.html(message) : $.notify(message);
+		}
 	}
 
 	(function init() {
@@ -35,7 +53,6 @@ app.controller('roomController', ['$state', '$scope', function($state, $scope) {
 		socket.emit('room', room);
 	})();
 
-	//Remove listeners of socket when switching to another view, cause they acumulate if you don't destroy it on angularjs.
 	$scope.$on('$destroy', function (event) {
 		socket.removeAllListeners();
 	});

@@ -11,6 +11,7 @@
     "angular": "^1.5.7",
     "bootstrap": "^3.3.6",
     "angular-ui-router": "^0.3.1",
-    "angular-cookies": "^1.5.7"
+    "angular-cookies": "^1.5.7",
+    "notifyjs": "^0.4.2"
   }
 }
