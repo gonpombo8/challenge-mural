@@ -18,7 +18,7 @@ $ gulp serve
 
 ### Log of decisions.
 
-I decided to use expressJS to serve front-end files, like the bower_components, javascript controllers and templates.
+I decided to use expressJS to serve front-end files.
 At first, i started using jquery to write the client to make it faster. Then i refactored the code and migrated it to AngularJS, where i am more confortable.
 The first approach is when a user scrolls a document, jasvascript catchs this event (window.onscroll), and then sends to Nodejs the height of the scroll bar (window.pageYOffset). Also when the user receives a height position from the back-end, it will see the scrollbar updated by javascript (window.scrollTo(x, y)).
 It was an issue that when the user scrolled, the rest of the users were placed in that position. But when this happened the window.onscroll event was called again on each client, so they were sending duplicate information, which was irrelevant.
