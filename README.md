@@ -46,7 +46,7 @@ I created rooms, so more than one document could be read collaboratively, and us
 
 I used cookies to store the username to indentify who scrolls the document. This username cookie is sent trought socket.headers.
 
-If a user joins the session and there's another user connected, nodejs sends the connected user's positon. I stored the scroll position in memory (var scrollTest) as it only has one cluster and one instance. Another way would be to request the connected user position with sockets and send it to the new user; or store it on redis and mongodb.
+If a user joins the session and there's another user connected, nodejs sends the connected user's positon. I stored the scroll position in memory (var scrollStructure) as it only has one cluster and one instance. Another way would be to request the connected user position with sockets and send it to the new user; or store it on redis and mongodb.
 
 
 ### Bonus points 1: 
@@ -68,7 +68,7 @@ window.pageYOffset
 With this two variables, i can calculate the percentage of the scroll bar position, so another device with different resolution can see the same text part.
 It only takes to multiplicate the percentage height with the browser total height, which is calculated with the maxHeightScroll function.
 ```javascript
-	var height = scroll.percentage * maxHeightScroll();
+var height = scroll.percentage * maxHeightScroll();
 ```
 
 ### Bonus point 2
@@ -85,6 +85,7 @@ I would use mongod because redis is an in-memory data structure store used as ca
 
 
 * Sticky Sessions.
+
 Socket.io needs to talk continuously to the same server instance, so it works perfectly using only one instance.
 Running the app behind a node balancer with multiple instances, would break socket.io because requests would be sent to different instances, which would break handshake protocol.
 To solve this problem, load balancers have "sticky sessions". The concept of stick sessions is that all the client requests allways go to the same server instance.
