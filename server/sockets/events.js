@@ -22,7 +22,7 @@ function socketEvents (io) {
 			if(socket.room) socket.leave(socket.room);
 			joinRoom(room);
 			let roomSessions = io.sockets.adapter.rooms[room].length;
-			if(roomSessions > 1) socket.emit('updateSroll', scrollStructure[room] || 0);
+			if(roomSessions > 1) socket.emit('updateSroll', {percentage: scrollStructure[room] || 0});
 		});
 
 		socket.on('disconnect', () => {
