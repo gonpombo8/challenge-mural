@@ -10,8 +10,7 @@ Challenge MURAL.co
 $ git clone git@github.com:gonpombo8/challenge-mural.git challenge
 $ cd challenge
 $ npm install 
-$ bower install
-$ node app.js
+$ gulp serve
 ```
 
 ### Demo.
