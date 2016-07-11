@@ -7,8 +7,6 @@ app.controller('roomController', ['$state', '$scope', '$cookies', function($stat
 	var WIDTH          = 0;
 	var timeout;
 
-	$.notify.defaults({autoHideDelay: 4000, className: 'success'});
-
 	window.onscroll = function() {
 		var scrollPercetage = window.pageYOffset / maxHeightScroll();
 		if(!updatingScroll) socket.emit('scrollChange', {percentage: scrollPercetage, room: room});
