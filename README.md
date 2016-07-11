@@ -16,13 +16,7 @@ $ gulp serve
 ### Demo.
 > You can access to demo preview on https://mural-challenge.herokuapp.com/#/
 
-### Bonus Point 1
-
-### Bonus Point 2
-
-### Bonus Point 3
-
-### Log of the most important decisions.
+### Log of decisions.
 
 I decided to use expressJS to serve front-end files, like the bower_components, javascript controllers and templates.
 At first, i started using jquery to write the client to make it faster. Then i refactored the code and migrated it to AngularJS, where i am more confortable.
@@ -53,3 +47,55 @@ I created rooms, so more than one document could be read collaboratively, and us
 I used cookies to store the username to indentify who scrolls the document. This username cookie is sent trought socket.headers.
 
 If a user joins the session and there's another user connected, nodejs sends the connected user's positon. I stored the scroll position in memory (var scrollTest) as it only has one cluster and one instance. Another way would be to request the connected user position with sockets and send it to the new user; or store it on redis and mongodb.
+
+
+### Bonus points 1: 
+> Do the math to coordinate both Windows when they have multiple sizes. 
+
+I calculated the browser max height and stored it.
+
+```javascript
+function maxHeightScroll() {
+	var documentHeight = document.documentElement.scrollHeight;
+	var windowHeight = window.innerHeight;
+	return documentHeight - windowHeight;
+}
+```
+When the user scrolls, i get the scroll bar height position.
+```javascript
+window.pageYOffset
+```
+With this two variables, i can calculate the percentage of the scroll bar position, so another device with different resolution can see the same text part.
+It only takes to multiplicate the percentage height with the browser total height, which is calculated with the maxHeightScroll function.
+```javascript
+	var height = scroll.percentage * maxHeightScroll();
+```
+
+### Bonus point 2
+>How would you keep versioning on the database, if we wanted to store the last read position on each document (i.e. pick we're you've left). Research tech and describe the solution; no code required.
+
+To keep the last read position of each document, i would use redis and mongodb.
+It doesnt make sense to save all the height position sent by the user, because when the user starts scrolling it might send a lot of points. The last position is the only now that matters to be save, so i would use the scrollTimeout function previously declared to save the last position after not receiving data for 500ms.
+I would save the scroll height and the document room on redis and mongodb. 
+When an user connects, node will search on redis if that document has a height position and send it; if not query to mongodb, save the data fetch on redis and send it to the client.
+I would use mongod because redis is an in-memory data structure store used as cache to speed up web application, so if redis server shutdown some data could be lost.
+
+### Bonus point 3.
+>How would you run this same app on multiple servers behind a Load Balancer? Research tech and describe the solution; no code required.
+
+
+* Sticky Sessions.
+Socket.io needs to talk continuously to the same server instance, so it works perfectly using only one instance.
+Running the app behind a node balancer with multiple instances, would break socket.io because requests would be sent to different instances, which would break handshake protocol.
+To solve this problem, load balancers have "sticky sessions". The concept of stick sessions is that all the client requests allways go to the same server instance.
+
+* Redis Publisher/Subscribe service.
+
+To broadcast events to everyone, or everyone in a room you’ll need to use redis pub/sub service to pass messages between processes or computers.
+This service uses an adapter which is connected to redis.
+
+```javascript
+https://github.com/socketio/socket.io-redis
+var redis = require('socket.io-redis');
+io.adapter(redis({ host: host, port: port }))
+```
