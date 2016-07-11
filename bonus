@@ -1,0 +1,27 @@
+Bonus points 1: 
+
+I calculate the browser max height and store it.
+
+```javascript
+function maxHeightScroll() {
+	var documentHeight = document.documentElement.scrollHeight;
+	var windowHeight = window.innerHeight;
+	return documentHeight - windowHeight;
+}
+```
+When user scrolls, i get the scroll bar height position.
+```javascript
+window.pageYOffset
+```
+With this two variables, i could calculate the percentage of the scroll bar position, so another device with different resolution could see the same text part.
+It only has to multiplicate the percentage height with the total height px, which is calculate with the maxHeightScroll function.
+```javascript
+	var height = scroll.percentage * maxHeightScroll();
+```
+
+
+Bonus point 2
+
+To keep the last read position of each document, i will use redis and mongodb.
+It doesnt have to much sense to save all the height position send by the user, because when the user starts scrolling maybe it sends a lot of positions. The last position is what it really matters to save, so i think to use the scrollTimeout function declared before to save the last position after 500ms of not receiving data.
+I would save the scroll height and the document room on redis and mongodb. When an user connects, will search on redis if that document has a height position and send it, if not query to mongodb. If there's no data, it means that is a new document and nobody see it.
