@@ -4,7 +4,7 @@ module.exports = socketEvents;
 var cookie = require('cookie');
 
 function socketEvents (io) {
-	var scrollTest = {};
+	var scrollStructure = {};
 	
 	io.on('connection', (socket) => {
 		console.log("Socket %s connected", socket.id);
@@ -14,7 +14,7 @@ function socketEvents (io) {
 			socket.cookies = cookie.parse(socket.request.headers.cookie);
 			if(!socket.cookies.username) socket.emit('error', 'Auth error');
 			if(!socket.room) joinRoom(scrollData.room);
-			scrollTest[socket.room] = scrollData.percentage;
+			scrollStructure[socket.room] = scrollData.percentage;
 			socket.broadcast.to(socket.room).emit('updateSroll', {percentage: scrollData.percentage, username: socket.cookies.username});
 		});
 
@@ -22,7 +22,7 @@ function socketEvents (io) {
 			if(socket.room) socket.leave(socket.room);
 			joinRoom(room);
 			let roomSessions = io.sockets.adapter.rooms[room].length;
-			if(roomSessions > 1) socket.emit('updateSroll', scrollTest[room] || 0);
+			if(roomSessions > 1) socket.emit('updateSroll', scrollStructure[room] || 0);
 		});
 
 		socket.on('disconnect', () => {
