@@ -18,11 +18,12 @@ function socketEvents (io) {
 			socket.broadcast.to(socket.room).emit('updateSroll', {percentage: scrollData.percentage, username: socket.cookies.username});
 		});
 
-		socket.on('room', (room) => {
+		socket.on('initRoom', (room, fn) => {
 			if(socket.room) socket.leave(socket.room);
 			joinRoom(room);
 			let roomSessions = io.sockets.adapter.rooms[room].length;
-			if(roomSessions > 1) socket.emit('updateSroll', {percentage: scrollStructure[room] || 0});
+			let percentage = roomSessions > 1 ? (scrollStructure[room] || 0) : 0
+			fn({percentage});
 		});
 
 		socket.on('disconnect', () => {

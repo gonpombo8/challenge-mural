@@ -47,8 +47,10 @@ app.controller('roomController', ['$state', '$scope', '$cookies', function($stat
 	}
 
 	(function init() {
-		window.scrollTo(0, 0);
-		socket.emit('room', room);
+		socket.emit('initRoom', room, function(scroll) {
+			scrollTimeout();
+			window.scrollTo(WIDTH, scroll.percentage * maxHeightScroll());
+		});
 	})();
 
 	$scope.$on('$destroy', function (event) {
